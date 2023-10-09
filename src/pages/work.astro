@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+import ContactCTA from '../components/ContactCTA.astro';
+import PortfolioPreview from '../components/PortfolioPreview.astro';
+import Hero from '../components/Hero.astro';
+import Grid from '../components/Grid.astro';
+
+const projects = (await getCollection('work')).sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<BaseLayout
+	title="Mes projets | Elisa Roger"
+	description="Découvrez mes derniers projets"
+>
+	<div class="stack gap-20">
+		<main class="wrapper stack gap-8">
+			<Hero
+				title="Mes projets"
+				tagline="Voici mes projets les plus récents ci-dessous."
+				align="start"
+			/>
+			
+			<a href="https://projet-site-web-interactive-elisa.netlify.app">Lien pour le projet "Page web intéractive"</a>
+			<a href="https://projet-site-web-elisa.netlify.app">Lien pour le projet "Site Agence de Voyage"</a>
+			<a href="https://projet-snake-elisa.netlify.app">Lien pour le projet "Jeu du serpent"</a>
+			<Grid variant="offset">
+				{
+					projects.map((project) => (
+						<li>
+							<PortfolioPreview project={project} />
+						</li>
+					))
+				}
+			</Grid>
+		</main>
+		<ContactCTA />
+	</div>
+</BaseLayout>
